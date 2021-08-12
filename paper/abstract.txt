@@ -1,0 +1,22 @@
+Rust is a promising system programming language that guarantees
+memory safety at compile time. To support diverse requirements for
+system software such as accessing low-level hardware, Rust allows
+programmers to perform operations that are not protected by the Rust
+compiler with the unsafe keyword. However, Rust's safety guarantee
+relies on the soundness of all unsafe code in the program as well as the
+standard and external libraries, making it hard to reason about their
+correctness. In other words, a single bug in any unsafe code breaks the
+whole program's safety guarantee.
+
+In this paper, we introduce Rudra, an open source tool that analyzes and
+reports potential memory safety bugs in unsafe Rust code. Since a bug
+in unsafe code threatens the foundation of Rust's safety guarantee, our
+primary focus is to scale our analysis to all the programs and libraries
+hosted in the Rust package registry. Rudra can scan the entire registry
+(43k packages) in 6.5 hours and identified 263 previously unknown
+memory safety bugs - filing 98 RustSec advisories and 74 CVEs,
+representing 41.4% of all bugs reported to RustSec since 2016. The new
+bugs Rudra found are non-trivial and subtle and often made by Rust
+experts: two in the std library, one in the official futures library, and one
+in the Rust compiler, rustc. We will open source Rudra and plan to
+integrate its algorithm into the official Rust linter.
