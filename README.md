@@ -33,3 +33,14 @@ This is a basic guide on how to run Rudra on Rust packages.
 
 ## Validating Evaluation on crates.io Packages (XX human-minutes + XX compute-hours)
 
+
+## Re-using Rudra Beyond the Paper (30 human-minutes)
+
+Rudra's code can be used as an extensible framework for future research for
+ecosystem or package level analysis. In particular, Rudra allows new bug finding
+algorithms to be integrated easily, taking full advantage of the reporting
+mechanism.
+
+The following tutorial guides the user through the creation of a bug finding
+algorithm that flags usages of the function `crash_me("please")` across all
+Rust code.
