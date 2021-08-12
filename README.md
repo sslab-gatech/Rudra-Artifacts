@@ -61,7 +61,7 @@ TODO
 
 ## Validating Evaluation on crates.io Packages (XX human-minutes + XX compute-hours)
 
-First, download `cargo_home.tar.gz` from TODO and unpack it to `$RUDRA_RUNNER_HOME/cargo_home`.
+First, download `rudra_runner_home-cached.tar.gz` from TODO and unpack it to `$RUDRA_RUNNER_HOME`.
 Then, you can run Rudra on all crates published on crates.io with the following command.
 
 ```
