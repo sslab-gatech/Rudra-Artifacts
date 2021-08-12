@@ -54,11 +54,11 @@ TODO: choose an example project and describe the expected output
 
 ## Validating Bugs from Paper (XX human-minutes + XX compute-minutes)
 
-TODO: update test scripts to use Docker-based Rudra
+TODO: update test scripts to use Docker-based Rudra (rudra-poc/paper/recreate_bugs.py)
 
 ## Validating Rust standard library bugs (XX human-minutes + XX compute-minutes)
 
-TODO
+TODO: rudra/stdlib-analysis
 
 ## Validating Evaluation on crates.io Packages (XX human-minutes + XX compute-hours)
 
@@ -72,7 +72,7 @@ docker-rudra-runner
 This step took 6.5 hours on a machine with 32-core AMD EPYC 7452, 252 GB memory, and an NVMe SSD that runs Ubuntu 20.04.
 The analysis result will be saved in `$RUDRA_RUNNER_HOME/campaign/YYYYMMDD_HHmmss/[log|report]` directories.
 
-TODO: explain how to use our log analysis scripts to verify the result
+TODO: explain how to use our log analysis scripts to verify the result (rudra-poc/paper/log_analyzer.py)
 
 ## Re-using Rudra Beyond the Paper (30 human-minutes)
 
