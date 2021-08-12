@@ -37,9 +37,10 @@ This guide describes how to use Rudra with Docker on Linux environment.
 1. Install [Docker](https://docs.docker.com/get-docker/) and Python 3 on your system.
 2. Clone [Rudra](https://github.com/sslab-gatech/Rudra) and [Rudra-Artifact](https://github.com/sslab-gatech/Rudra-Artifacts) repositories.
 3. In Rudra repository, run `docker build . -t rudra:latest`.
-4. In Rudra repository, run `./setup_rudra_runner_home.py <directory>` and set `RUDRA_RUNNER_HOME` to that directory.
-   Example: `./setup_rudra_runner_home.py ~/rudra-home && export RUDRA_RUNNER_HOME=$HOME/rudra-home`.
-5. Add `docker-helper` in Rudra repository (TODO: create this directory) to `$PATH`. Now you are ready to use Rudra!
+4. In Rudra repository, run `./setup_rudra_runner_home_fixed.py <directory>` and set `RUDRA_RUNNER_HOME` to that directory.
+   Example: `./setup_rudra_runner_home_fixed.py ~/rudra-home && export RUDRA_RUNNER_HOME=$HOME/rudra-home`.
+    * Note: be careful NOT to run `./setup_rudra_runner_home.py`
+5. Add `docker-helper` in Rudra repository to `$PATH`. Now you are ready to test Rudra!
 
 ## Basic Usability Test: Running Rudra on a single project (XX human-minutes + XX compute-minutes)
 
@@ -69,7 +70,7 @@ docker-rudra-runner
 ```
 
 This step took 6.5 hours on a machine with 32-core AMD EPYC 7452, 252 GB memory, and an NVMe SSD that runs Ubuntu 20.04.
-The analysis result will be saved in `$RUDRA_RUNNER_HOME/campaign/YYYYMMDD_HHmmss/[log|report]` directory.
+The analysis result will be saved in `$RUDRA_RUNNER_HOME/campaign/YYYYMMDD_HHmmss/[log|report]` directories.
 
 TODO: explain how to use our log analysis scripts to verify the result
 
