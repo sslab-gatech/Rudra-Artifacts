@@ -2,6 +2,9 @@
 
 **Paper**: RUDRA: Finding Memory Safety Bugs in Rust at the Ecosystem Scale
 
+**Artifact Repo Hash**: XXXXX (Hash of the artifacts repo used to generate
+                               this archive)
+
 ## Overview
 
 Directory structure:
