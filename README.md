@@ -79,8 +79,8 @@ analysis algorithm that found the bug, and the bug location in toml format in a 
 See `rudra-poc/README.md` for the full list.
 Internal bugs that do not affect the user of the library or the bugs that are independently fixed or already known are located in `rudra-poc/unreported` directory.
 
-The next few sections show the claimed bugs from the different parts of the
-paper. The final section shows how to correlate them with Rudra's bug reports.
+Below, *Cliams* section shows the claimed bugs from the different parts of the paper.
+*Validating the Claims* describes how to validate and reproduce the claims in the paper.
 
 ### Claims
 
