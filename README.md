@@ -173,7 +173,7 @@ Claimed: RUDRA-NEW-BUGS, RUDRA-RUTSEC-RATIO
 
 #### RUDRA-NEW-BUGS
 
-`rudra-poc/poc` contains all of the bugs found during the Rudra research.
+`rudra-poc/poc` contains all of the new memory-safety bugs found during the Rudra research.
 Although the result can be verified manually from these files,
 we provide two scripts that automatically verifies the bug count and reproduces the result for convenience.
 
