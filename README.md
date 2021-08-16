@@ -91,14 +91,16 @@ and compiler bugs identified in the paper.
 The next few sections show the claimed bugs from the different parts of the
 paper. The final section shows how to correlate them with Rudra's bug reports.
 
-### Abstract
+### Claims
+
+#### Abstract
 
 > The new bugs RUDRA found are nontrivial and subtle and often made by Rust
 > experts: two in the std library, ... and one in the Rust compiler, rustc.
 
 Claimed: RUDRA-STD-1, RUDRA-STD-2, RUDRA-RUSTC-1
 
-### 1. Introduction
+#### 1. Introduction
 
 > these memory safety bugs are subtle and non-trivial, e.g., two in the standard
 > library, ... and one in the Rust compiler, rustc, which are the mistakes made
@@ -106,7 +108,7 @@ Claimed: RUDRA-STD-1, RUDRA-STD-2, RUDRA-RUSTC-1
 
 Claimed: RUDRA-STD-1, RUDRA-STD-2, RUDRA-RUSTC-1
 
-### Figure 3
+#### Figure 3
 
 > An example of a panic safety bug, fix, and PoC in the Rust standard library
 > that RUDRA found (CVE-2020-36317).
@@ -115,14 +117,14 @@ Claimed: RUDRA-STD-1, RUDRA-STD-2, RUDRA-RUSTC-1
 
 Claimed: RUDRA-STD-3 (Independently Fixed)
 
-### 3.2 Higher-order Safety Invariant
+#### 3.2 Higher-order Safety Invariant
 
 > This bug in the `join()` function for `[Borrow<str>]` was discovered by RUDRA
 > in the Rust standard library.
 
 Claimed: RUDRA-STD-1
 
-### Figure 4
+#### Figure 4
 
 > A missing check of the higher-order invariant introduces a time-of-check to
 > time-of-use bug in the Rust standard library (`join()` for `[Borrow<str>]`).
@@ -130,7 +132,7 @@ Claimed: RUDRA-STD-1
 
 Claimed: RUDRA-STD-1
 
-### Table 4
+#### Table 4
 
 > | Package | Location              | ... | Bug ID                    |
 > |---------|-----------------------|-----|---------------------------|
