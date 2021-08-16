@@ -205,7 +205,21 @@ making sure that the bug location is found in Rudra's output.
 
 #### RUDRA-RUTSEC-RATIO
 
-TODO: WIP
+1. Change into `rudra-poc/paper` directory.
+1. Run `./rustsec_list_counter.py`.
+
+```
+Rudra-found RustSec memory-safety bugs: 96
+RustSec total: 232
+RustSec memory-safety: 187
+
+RustSec total %: 41.4%
+RustSec memory-safety %: 51.3%
+```
+
+This script reports the number of bugs reported to RustSec and the ratio of Rudra-found bugs among them.
+As we described in the paper, we excluded notices and unmaintained advisories, which do not always represent a bug in the target package.
+`rudra-poc/paper/rustsec_list_annotated.csv` is the raw data that shows how we categorized each RustSec report.
 
 #### RUDRA-BUG-BREAKDOWN
 
