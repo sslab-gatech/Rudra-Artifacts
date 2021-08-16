@@ -38,6 +38,7 @@ Download times in steps are based on a gigabit internet connection.
 This guide describes how to use Rudra with Docker on Linux environment.
 
 1. Install [Docker](https://docs.docker.com/get-docker/) and Python 3 on your system.
+1. TODO: python dependency (tomlkit)
 1. Install [Rust Toolchain](https://www.rust-lang.org/tools/install).
     * The recommended way is to use rustup.
         * `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
@@ -50,6 +51,8 @@ This guide describes how to use Rudra with Docker on Linux environment.
     * `git clone --recursive https://github.com/sslab-gatech/Rudra-Artifacts.git`
     * `rudra` directory includes source code for Rudra and `rudra-poc` lists all of the Rust memory safety bugs found during the research.
     * TODO: we need to include submodules (don't do it until everything is ready)
+1. Change into `rudra-poc` directory and clone [RustSec advisory DB](https://github.com/rustsec/advisory-db/).
+    * `git clone https://github.com/rustsec/advisory-db.git`
 1. Change into `rudra` directory.
 1. In Rudra directory, run `docker build . -t rudra:latest`.
 1. In Rudra directory, run `./setup_rudra_runner_home_fixed.py <directory>` and set `RUDRA_RUNNER_HOME` environment variable to that directory. This command creates a new directory that is used by Rudra to save configurations and intermediate files.
@@ -67,9 +70,145 @@ The log and report are printed to stderr by default.
 
 TODO: choose an example project and describe the expected output
 
-## Validating Bugs from Paper (XX human-minutes + XX compute-minutes)
+## Reproduce Bugs found by Rudra (XX human-minutes + XX compute-minutes)
 
-TODO: update test scripts to use Docker-based Rudra (rudra-poc/paper/recreate_bugs.py)
+All of the new bugs found by Rudra are located in `rudra-poc/poc`.
+Each file contains the name of the target crate, version, bug location, issue URL, RustSec/CVE ID,
+analysis algorithm that found the bug, and the bug location in toml format in a comment.
+See `rudra-poc/README.md` for the full list.
+Internal bugs that do not affect the user of the library or the bugs that are independently fixed or already known are located in `rudra-poc/unreported` directory.
+
+The next few sections show the claimed bugs from the different parts of the
+paper. The final section shows how to correlate them with Rudra's bug reports.
+
+### Claims
+
+#### Abstract
+
+> RUDRA can scan the entire registry
+> (43k packages) in 6.5 hours and identified 263 previously
+> unknown memory safety bugs—filing 98 RustSec advisories
+> and 74 CVEs, representing 41.4% of all bugs reported to
+> RustSec since 2016.
+
+Claimed: RUDRA-NEW-BUGS, RUDRA-RUSTSEC-RATIO
+
+#### Figure 1
+
+> RUDRA found 263 new memory safety bugs in the
+> Rust ecosystem, representing 41.4% of all RustSec bugs since 2016.
+
+Claimed: RUDRA-NEW-BUGS, RUDRA-RUSTSEC-RATIO
+
+#### 1. Introduction
+
+> It can scan the entire 43k packages in the registry in 6.5 hours and
+> found 263 previously unknown memory safety bugs—filing
+> 74 CVEs and 98 advisories with the official Rust vulnerability
+> database, RustSec [36].
+
+Claimed: RUDRA-NEW-BUGS
+
+> This is an unprecedented number of
+> memory safety bugs in the Rust ecosystem: 41.4% and 51.3%
+> of the entire RustSec bugs and memory safety bugs since
+> 2016 (Figure 1).
+
+Claimed: RUDRA-RUSTSEC-RATIO
+
+> **New bugs.** RUDRA found 263 new memory safety bugs in
+> the Rust ecosystem. This represents 41.4% of all bugs in
+> RustSec since 2016.
+
+Claimed: RUDRA-NEW-BUGS, RUDRA-RUSTSEC-RATIO
+
+#### Table 2
+
+> The total number of reports with varying precision
+> and true bugs after scanning 43k packages (see §6.1).
+
+Claimed: RUDRA-NEW-BUGS, RUDRA-BUG-BREAKDOWN
+
+#### Table 4
+
+Claimed: RUDRA-NEW-BUGS
+
+#### 6.1 New Bugs Found by Rudra
+
+> We reported 263 previously unknown memory-safety
+> bugs in 145 packages, resulting in 98 RustSec advisories
+> and 74 CVEs (see Table 3 and Table 4).
+
+Claimed: RUDRA-NEW-BUGS
+
+> This is an
+> unprecedented number of memory-safety bugs, constituting
+> 51.3% of all memory-safety bugs in the Rust ecosystem since
+> 2016 (see Figure 1).
+
+Claimed: RUDRA-RUSTSEC-RATIO
+
+> During the pilot
+> study to identify common bug patterns and while auditing
+> code from RUDRA reports, we found 46 additional bugs, resulting
+> in 17 RustSec advisories and 25 CVEs, three of which
+> are in the Rust standard library [10–12].
+
+Claimed: RUDRA-NEW-BUGS
+
+> **Precision.** ...
+
+Claimed: RUDRA-BUG-BREAKDOWN
+
+> In total, 98
+> RustSec advisories and 74 CVE IDs have been assigned to
+> the bugs found by RUDRA. These bugs represent 41.4% of all
+> RustSec bugs and 51.3% of memory-safety bugs since RustSec
+> started tracking security bugs in 2016.
+
+Claimed: RUDRA-NEW-BUGS, RUDRA-RUTSEC-RATIO
+
+### Validating the Claims
+
+#### RUDRA-NEW-BUGS
+
+`rudra-poc/poc` contains all of the bugs found during the Rudra research.
+Although the result can be verified manually from these files,
+we provide two scripts that automatically verifies the bug count and reproduces the result for convenience.
+
+##### Verifying the bug count
+
+1. Change into `rudra-poc/paper` directory.
+1. Run `./count_bugs.py --simple`.
+
+```
+UnsafeDataflow
+  Crate: 83, Bugs: 122, RustSec: 41, CVE: 44
+SendSyncVariance
+  Crate: 63, Bugs: 141, RustSec: 57, CVE: 30
+Manual
+  Crate: 19, Bugs: 46, RustSec: 17, CVE: 25
+```
+
+This script parses the metadata of each file in `rudra-poc/poc` and count the number of bugs
+based on the analyzer that detected the bug.
+
+##### Verifying the reproducibility
+
+1. Change into `rudra-poc/paper` directory.
+1. Run `./recreate_bugs.py`.
+
+This script downloads each target package under `rudra-poc/rudra-recreate` directory
+and runs `docker-cargo-rudra` command on each of them,
+making sure that the bug location is found in Rudra's output.
+
+#### RUDRA-RUTSEC-RATIO
+
+TODO: WIP
+
+#### RUDRA-BUG-BREAKDOWN
+
+TODO: we need youngsuk
 
 ## Validating Rust standard library bugs (10 human-minutes + 30 compute-minutes)
 
@@ -201,8 +340,7 @@ races across threads.
 [[rust-lang/rust#81425](https://github.com/rust-lang/rust/issues/81425)]
 
 
-
-## Validating Evaluation on crates.io Packages (XX human-minutes + XX compute-hours)
+## Validating Rudra's precision on crates.io Packages (XX human-minutes + XX compute-hours)
 
 First, download `rudra_runner_home-cached.tar.gz` from TODO and unpack it to `$RUDRA_RUNNER_HOME`.
 Then, you can run Rudra on all crates published on crates.io with the following command.
