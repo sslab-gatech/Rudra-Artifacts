@@ -10,6 +10,8 @@ Directory structure:
 ```
 📦 Rudra-Artifacts
 ┣ 📄 paper (The paper and abstract as accepted to SOSP)
+┣ rudra (git submodule, source code of Rudra)
+┣ rudra-poc (git submodule, the list of bugs found during the research)
 ```
 
 ### Inputs/Outputs
@@ -31,7 +33,7 @@ You will need the following to evaluate Rudra:
 
 Download times in steps are based on a gigabit internet connection.
 
-## Installing the Artifact (X human-minutes + XX compute-minutes)
+## Installing the Artifact (30 human-minutes + 30 compute-minutes)
 
 This guide describes how to use Rudra with Docker on Linux environment.
 
@@ -44,11 +46,15 @@ This guide describes how to use Rudra with Docker on Linux environment.
 1. Install [cargo-download](https://crates.io/crates/cargo-download).
     * Run `cargo install cargo-download` after setting up the Rust toolchain.
     * This command lets us download crates (Rust packages) from Rust's official registry [crates.io](https://crates.io/).
-1. Clone [Rudra](https://github.com/sslab-gatech/Rudra) and [Rudra-Artifact](https://github.com/sslab-gatech/Rudra-Artifacts) repositories.
-1. In Rudra repository, run `docker build . -t rudra:latest`.
-1. In Rudra repository, run `./setup_rudra_runner_home_fixed.py <directory>` and set `RUDRA_RUNNER_HOME` to that directory.
+1. Clone [Rudra-Artifact](https://github.com/sslab-gatech/Rudra-Artifacts) and its submodules.
+    * `git clone --recursive https://github.com/sslab-gatech/Rudra-Artifacts.git`
+    * `rudra` directory includes source code for Rudra and `rudra-poc` lists all of the Rust memory safety bugs found during the research.
+    * TODO: we need to include submodules (don't do it until everything is ready)
+1. Change into `rudra` directory.
+1. In Rudra directory, run `docker build . -t rudra:latest`.
+1. In Rudra directory, run `./setup_rudra_runner_home_fixed.py <directory>` and set `RUDRA_RUNNER_HOME` environment variable to that directory. This command creates a new directory that is used by Rudra to save configurations and intermediate files.
     * Example: `./setup_rudra_runner_home_fixed.py ~/rudra-home && export RUDRA_RUNNER_HOME=$HOME/rudra-home`
-    * Note: DO NOT run `./setup_rudra_runner_home.py`
+    * Note: DO NOT use `setup_rudra_runner_home.py`. Use `setup_rudra_runner_home_fixed.py` for the artifact evaluation purpose. The fixed version uses a fixed crates.io registry index to reproduce the paper's result.
 1. Add `docker-helper` in Rudra repository to `$PATH`. Now you are ready to test Rudra!
 
 ## Basic Usability Test: Running Rudra on a single project (XX human-minutes + XX compute-minutes)
