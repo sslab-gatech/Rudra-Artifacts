@@ -65,7 +65,7 @@ TODO: choose an example project and describe the expected output
 
 TODO: update test scripts to use Docker-based Rudra (rudra-poc/paper/recreate_bugs.py)
 
-## Validating Rust standard library bugs (20 human-minutes + 30 compute-minutes)
+## Validating Rust standard library bugs (10 human-minutes + 30 compute-minutes)
 
 Analyzing the Rust standard library and compiler is slightly different than a
 simple Rust package. We have included a Docker image that will perform all the
@@ -179,7 +179,14 @@ memory safety issues.
 
 #### RUDRA-RUSTC-1
 
-TODO: where is the report for this??
+```
+Info (SendSyncVariance:/PhantomSendForSend/NaiveSendForSend/RelaxSend): Suspicious impl of `Send` found
+-> rayon-core/src/worker_local.rs:18:1: 18:42
+unsafe impl<T> Send for WorkerLocal<T> {}
+Info (SendSyncVariance:/ApiSyncforSync/NaiveSyncForSync/RelaxSync): Suspicious impl of `Sync` found
+-> rayon-core/src/worker_local.rs:19:1: 19:42
+unsafe impl<T> Sync for WorkerLocal<T> {}
+```
 
 The `WorkerLocal` struct used in parallel compilation mode could lead to data
 races across threads.
