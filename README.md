@@ -52,8 +52,9 @@ This guide describes how to use Rudra with Docker on Linux environment.
     * `rudra` directory includes source code for Rudra and `rudra-poc` lists all of the Rust memory safety bugs found during the research.
     * TODO: we need to include submodules (don't do it until everything is ready)
 1. Change into `rudra-poc` directory and clone [RustSec advisory DB](https://github.com/rustsec/advisory-db/).
-    * `git clone https://github.com/rustsec/advisory-db.git`
+    * `cd rudra-poc && git clone https://github.com/rustsec/advisory-db.git`
 1. Change into `rudra` directory.
+    * `cd ../rudra`
 1. In Rudra directory, run `docker build . -t rudra:latest`.
 1. In Rudra directory, run `./setup_rudra_runner_home_fixed.py <directory>` and set `RUDRA_RUNNER_HOME` environment variable to that directory. This command creates a new directory that is used by Rudra to save configurations and intermediate files.
     * Example: `./setup_rudra_runner_home_fixed.py ~/rudra-home && export RUDRA_RUNNER_HOME=$HOME/rudra-home`
