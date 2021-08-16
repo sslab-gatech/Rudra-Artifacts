@@ -157,7 +157,7 @@ Claimed: RUDRA-RUSTSEC-RATIO
 
 Claimed: RUDRA-NEW-BUGS
 
-> **Precision.** ...
+> **Precision.** (the whole paragraph)
 
 Claimed: RUDRA-BUG-BREAKDOWN
 
