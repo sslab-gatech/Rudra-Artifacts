@@ -316,7 +316,7 @@ string returns different strings as part of the `Borrow` trait.
 #### RUDRA-STD-2
 
 ```
-Info (UnsafeDataflow:/VecSetLen): Potential unsafe dataflow issue in `io::read_to_end_with_reservation`
+Error (UnsafeDataflow:/VecSetLen): Potential unsafe dataflow issue in `io::read_to_end_with_reservation`
 -> /usr/local/rustup/toolchains/nightly-2020-08-26-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/std/src/io/mod.rs:354:1: 399:2
 ```
 
@@ -328,7 +328,7 @@ calling `read_to_end` and `read_to_string` can cause a heap buffer overflow.
 #### RUDRA-STD-3 (Independently Fixed)
 
 ```
-Info (UnsafeDataflow:/CopyFlow): Potential unsafe dataflow issue in `string::String::retain`
+Warning (UnsafeDataflow:/CopyFlow): Potential unsafe dataflow issue in `string::String::retain`
 -> /usr/local/rustup/toolchains/nightly-2020-08-26-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/alloc/src/string.rs:1230:5: 1263:6
 ```
 
@@ -342,10 +342,10 @@ memory safety issues.
 #### RUDRA-RUSTC-1
 
 ```
-Info (SendSyncVariance:/PhantomSendForSend/NaiveSendForSend/RelaxSend): Suspicious impl of `Send` found
+Error (SendSyncVariance:/PhantomSendForSend/NaiveSendForSend/RelaxSend): Suspicious impl of `Send` found
 -> rayon-core/src/worker_local.rs:18:1: 18:42
 unsafe impl<T> Send for WorkerLocal<T> {}
-Info (SendSyncVariance:/ApiSyncforSync/NaiveSyncForSync/RelaxSync): Suspicious impl of `Sync` found
+Warning (SendSyncVariance:/ApiSyncforSync/NaiveSyncForSync/RelaxSync): Suspicious impl of `Sync` found
 -> rayon-core/src/worker_local.rs:19:1: 19:42
 unsafe impl<T> Sync for WorkerLocal<T> {}
 ```
