@@ -184,9 +184,9 @@ we provide two scripts that automatically verifies the bug count and reproduces 
 
 ```
 UnsafeDataflow
-  Crate: 83, Bugs: 122, RustSec: 41, CVE: 44
+  Crate: 83, Bugs: 122, RustSec: 41, CVE: 46
 SendSyncVariance
-  Crate: 63, Bugs: 141, RustSec: 57, CVE: 30
+  Crate: 63, Bugs: 142, RustSec: 57, CVE: 30
 Manual
   Crate: 19, Bugs: 46, RustSec: 17, CVE: 25
 ```
@@ -202,6 +202,8 @@ based on the analyzer that detected the bug.
 This script downloads each target package under `rudra-poc/rudra-recreate` directory
 and runs `docker-cargo-rudra` command on each of them,
 making sure that the bug location is found in Rudra's output.
+This script is multi-threaded,
+and our machine with AMD EPYC 7452 (32-core) took 7 minutes for the first run and 2 minutes for the subsequent run.
 
 #### RUDRA-RUTSEC-RATIO
 
