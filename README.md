@@ -79,7 +79,7 @@ analysis algorithm that found the bug, and the bug location in toml format in a 
 See `rudra-poc/README.md` for the full list.
 Internal bugs that do not affect the user of the library or the bugs that are independently fixed or already known are located in `rudra-poc/unreported` directory.
 
-Below, *Cliams* section shows the claims from different parts of the paper, and
+Below, *Claims* section shows the claims from different parts of the paper, and
 *Validating the Claims* section describes how to validate and reproduce the claims in the paper.
 
 ### Claims
@@ -412,7 +412,7 @@ This command took 6.5 hours on a machine with 32-core AMD EPYC 7452, 252 GB memo
 The analysis result will be saved in `$RUDRA_RUNNER_HOME/campaign/YYYYMMDD_HHmmss/[log|report]` directories.
 It is also possible to only verify the result without running the full experiment by using `20210816_225417` campaign.
 
-Below, *Cliams* section shows the claims from different parts of the paper, and
+Below, *Claims* section shows the claims from different parts of the paper, and
 *Validating the Claims* section describes how to validate and reproduce the claims in the paper.
 
 ### Claims
