@@ -74,7 +74,7 @@ Download times in steps are based on a gigabit internet connection.
 This guide describes how to use Rudra with Docker on Linux environment.
 
 1. Install [Docker](https://docs.docker.com/get-docker/) and Python 3 on your system.
-1. TODO: python dependency (tomlkit)
+1. Run `pip install tomlkit` to install the Python dependency.
 1. Install [Rust Toolchain](https://www.rust-lang.org/tools/install).
     * The recommended way is to use rustup.
         * `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
@@ -436,7 +436,9 @@ races across threads.
 [[rust-lang/rust#81425](https://github.com/rust-lang/rust/issues/81425)]
 
 
-## Validating Rudra's precision on crates.io Packages (XX human-minutes + XX compute-hours)
+## Validating Rudra's precision on crates.io Packages (20 human-minutes + 7 compute-hours)
+
+(Computing time is highly dependent on your computing power)
 
 Below, *Claims* section shows the claims from different parts of the paper, and
 *Validating the Claims* section describes how to validate and reproduce the claims in the paper.
