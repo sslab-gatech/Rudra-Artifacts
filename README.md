@@ -71,7 +71,7 @@ The log and report are printed to stderr by default.
 
 TODO: choose an example project and describe the expected output
 
-## Reproduce Bugs found by Rudra (XX human-minutes + XX compute-minutes)
+## Reproduce Bugs found by Rudra (20 human-minutes + 60 compute-minutes)
 
 All of the new bugs found by Rudra are located in `rudra-poc/poc`.
 Each file contains the name of the target crate, version, bug location, issue URL, RustSec/CVE ID,
@@ -79,8 +79,8 @@ analysis algorithm that found the bug, and the bug location in toml format in a 
 See `rudra-poc/README.md` for the full list.
 Internal bugs that do not affect the user of the library or the bugs that are independently fixed or already known are located in `rudra-poc/unreported` directory.
 
-Below, *Cliams* section shows the claimed bugs from the different parts of the paper.
-*Validating the Claims* describes how to validate and reproduce the claims in the paper.
+Below, *Cliams* section shows the claims from different parts of the paper, and
+*Validating the Claims* section describes how to validate and reproduce the claims in the paper.
 
 ### Claims
 
@@ -254,6 +254,7 @@ High - visible  65 / internal   8
 
 Note that the numbers are slightly different from the submitted version of the paper:
 ```
+The numbers reported in the paper:
 Bugs count for SendSyncVariance algorithm
 High - visible 118 / internal  59
  Med - visible 182 / internal  96
@@ -400,17 +401,27 @@ races across threads.
 
 ## Validating Rudra's precision on crates.io Packages (XX human-minutes + XX compute-hours)
 
-First, download `rudra_runner_home-cached.tar.gz` from TODO and unpack it to `$RUDRA_RUNNER_HOME`.
-Then, you can run Rudra on all crates published on crates.io with the following command.
+First, download `rudra-runner-home-cache.tar.gz` from TODO and set `$RUDRA_RUNNER_HOME` environment variable to point the extracted directory.
+This file contains full logs and reports of analyzing all crates under `campaign/20210816_225417`
+and downloaded source code of each crate under `rudra_cache`.
+This step is not strictly necessary for verifying the result but highly recommended
+due to the slow rate-limit of crates.io which is 1 req/sec.
 
-```
-docker-rudra-runner
-```
-
-This step took 6.5 hours on a machine with 32-core AMD EPYC 7452, 252 GB memory, and an NVMe SSD that runs Ubuntu 20.04.
+You can run Rudra on all crates with `docker-rudra-runner` command.
+This command took 6.5 hours on a machine with 32-core AMD EPYC 7452, 252 GB memory, and an NVMe SSD that runs Ubuntu 20.04.
 The analysis result will be saved in `$RUDRA_RUNNER_HOME/campaign/YYYYMMDD_HHmmss/[log|report]` directories.
+It is also possible to only verify the result without running the full experiment by using `20210816_225417` campaign.
 
-TODO: explain how to use our log analysis scripts to verify the result (rudra-poc/paper/log_analyzer.py)
+Below, *Cliams* section shows the claims from different parts of the paper, and
+*Validating the Claims* section describes how to validate and reproduce the claims in the paper.
+
+### Claims
+
+WIP
+
+### Validating the Claims
+
+WIP
 
 ## Re-using Rudra Beyond the Paper (30 human-minutes)
 
