@@ -166,7 +166,7 @@ Claimed: RUDRA-NEW-BUGS, RUDRA-RUSTSEC-RATIO
 
 Claimed: RUDRA-NEW-BUGS, RUDRA-BUG-BREAKDOWN
 
-#### Table 4
+#### Table 3, Table 4
 
 Claimed: RUDRA-NEW-BUGS
 
@@ -277,6 +277,7 @@ This scripts runs Rudra on all of the target packages that Rudra found bugs in a
 The script prints the breakdown of the bug counts in each precision.
 
 ```
+$ ./recreate_bugs.py
 (...)
 Bugs count for SendSyncVariance algorithm
 High - visible 118 / internal  60
@@ -288,7 +289,6 @@ High - visible  65 / internal   8
  Low - visible 163 / internal  31
 ```
 
-Note that the numbers are slightly different from the submitted version of the paper:
 ```
 The numbers reported in the paper:
 Bugs count for SendSyncVariance algorithm
@@ -301,6 +301,7 @@ High - visible  65 / internal   7
  Low - visible 162 / internal  28
 ```
 
+Note that the numbers are slightly different from the submitted version of the paper.
 This is because we found some uncounted bugs while we are automating the bug counting for the artifact submission.
 Rudra can actually find 5 *more* bugs in total than what we reported in the submitted version.
 We will use the new numbers in the camera-ready version of the paper.
@@ -437,27 +438,79 @@ races across threads.
 
 ## Validating Rudra's precision on crates.io Packages (XX human-minutes + XX compute-hours)
 
-First, download `rudra-runner-home-cache.tar.gz` from TODO and set `$RUDRA_RUNNER_HOME` environment variable to point the extracted directory.
-This file contains full logs and reports of analyzing all crates under `campaign/20210816_225417`
-and downloaded source code of each crate under `rudra_cache`.
-This step is not strictly necessary for verifying the result but highly recommended
-due to the slow rate-limit of crates.io which is 1 req/sec.
-
-You can run Rudra on all crates with `docker-rudra-runner` command.
-This command took 6.5 hours on a machine with 32-core AMD EPYC 7452, 252 GB memory, and an NVMe SSD that runs Ubuntu 20.04.
-The analysis result will be saved in `$RUDRA_RUNNER_HOME/campaign/YYYYMMDD_HHmmss/[log|report]` directories.
-It is also possible to only verify the result without running the full experiment by using `20210816_225417` campaign.
-
 Below, *Claims* section shows the claims from different parts of the paper, and
 *Validating the Claims* section describes how to validate and reproduce the claims in the paper.
 
 ### Claims
 
-WIP
+#### Table 2
+
+| Analyzer | Precision | # Reports |
+|----------|-----------|-----------|
+|          | High      | 138       |
+| UD       | Med       | 421       |
+|          | Low       | 1215      |
+|          | High      | 380       |
+| SV       | Med       | 815       |
+|          | Low       | 1207      |
+
+Claimed: RUDRA-REPORTS-PRECISION
+
+#### 6.1 New Bugs Found by Rudra
+
+> RUDRA took about 6.5 hours to scan all the packages on our
+> machine: 15.7% (7k) did not compile with the rustc version
+> RUDRA was based on, 4.6% (2k) did not produce any Rust
+> code (e.g., macro-only packages), and 1.8% (0.7k) did not
+> have proper metadata (e.g., depending on yanked packages),
+> leaving us with 77.9% (33k) packages as analysis targets.
+
+Claimed: RUDRA-COMPILE-RESULT
+
+> **Precision.** (whole section)
+
+Claimed: RUDRA-REPORTS-PRECISION
 
 ### Validating the Claims
 
-WIP
+#### RUDRA-COMPILE-RESULT, RUDRA-REPORTS-PRECISION
+
+1. Unpack `rudra-runner-home-cache.tar.gz` and set `$RUDRA_RUNNER_HOME` environment variable to the unpacked directory.
+1. (Optional) Use `docker-rudra-runner` to run the experiment. Otherwise, you can use `campaign/20210816_225417` that includes all logs and reports for convenience.
+1. Change into `rudra-poc/paper` directory.
+1. Run `./log_analyzer.py` to list the experiments. Then, run `./log_analyzer.py <experiment_id>` to analyze the log.
+    * Example: `./log_analyzer.py 20210816_225417`
+
+First, download `rudra-runner-home-cache.tar.gz` from TODO and set `$RUDRA_RUNNER_HOME` environment variable to point the extracted directory.
+This file contains downloaded source code of each crate under `rudra_cache`
+and full logs and reports of analyzing all crates under `campaign/20210816_225417`.
+Step 1 is not strictly necessary for verifying the result but highly recommended
+due to the slow rate-limit of crates.io which is 1 req/sec.
+
+You can run Rudra on all crates with `docker-rudra-runner` command.
+This command took 6.5 hours on a machine with 32-core AMD EPYC 7452, 252 GB memory, and an NVMe SSD that runs Ubuntu 20.04.
+The analysis result will be saved in `$RUDRA_RUNNER_HOME/campaign/YYYYMMDD_HHmmss/[log|report]` directories.
+For convenience, we included a full experiment result that was run on our machine under `20210816_225417` directory.
+
+Finally, run `./log_analyzer.py <experiment_id>` to print the final result.
+It takes less than 1 minute to analyze the result.
+
+```
+$ ./log_analyzer.py 20210816_225417
+{<Status.OKAY: 1>: 33223, <Status.EARLY_COMPILE_ERROR: 2>: 6656, <Status.LINT_COMPILE_ERROR: 3>: 3, <Status.EMPTY_TARGET: 4>: 1974, <Status.METADATA_ERROR: 5>: 751, <Status.ONLY_MAC_OS_ERROR: 6>: 18}
+Reports for analyzer SendSyncVariance
+  On high: 367
+  On med: 793
+  On low: 1176
+Reports for analyzer UnsafeDataflow
+  On high: 137
+  On med: 434
+  On low: 1214
+```
+
+Note that the numbers are slightly different from the submitted version of the paper.
+It's because (1) Rudra's false positive rate got a little lower because of the updated algorithm (# of report goes down), and (2) we changed a way to count std library reports (# of report goes up).
+Overall, the false positive rate got lower than the submitted version.
 
 ## Re-using Rudra Beyond the Paper (30 human-minutes)
 
