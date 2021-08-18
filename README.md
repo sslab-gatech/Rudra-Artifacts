@@ -194,6 +194,14 @@ Manual
 This script parses the metadata of each file in `rudra-poc/poc` and count the number of bugs
 based on the analyzer that detected the bug.
 
+Note that the numbers are slightly different from the submitted version of the paper:
+* Current version: 264 new bugs and 78 CVEs
+* Paper: 263 new bugs and 76 CVEs
+
+This is because we counted RUDRA-RUSTC-1 bug (see below) as one bug instead of two bugs by mistake,
+and two new CVEs were get assigned to the standard library bugs after the submission.
+We will use the new numbers in the camera-ready version of the paper.
+
 ##### Verifying the reproducibility
 
 1. Change into `rudra-poc/paper` directory.
@@ -202,6 +210,7 @@ based on the analyzer that detected the bug.
 This script downloads each target package under `rudra-poc/rudra-recreate` directory
 and runs `docker-cargo-rudra` command on each of them,
 making sure that the bug location is found in Rudra's output.
+"Finished running Rudra for (package)" means that Rudra was able to reproduce the bugs know for that package.
 This script is multi-threaded,
 and our machine with AMD EPYC 7452 (32-core) took 7 minutes for the first run and 2 minutes for the subsequent run.
 
@@ -225,7 +234,39 @@ As we described in the paper, we excluded notices and unmaintained advisories, w
 
 #### RUDRA-BUG-BREAKDOWN
 
-TODO: we need youngsuk
+1. Change into `rudra-poc/paper` directory.
+1. Run `./recreate_bugs.py`.
+
+This scripts runs Rudra on all of the target packages that Rudra found bugs in and ensures Rudra can reproduce them.
+The script prints the breakdown of the bug counts in each precision.
+
+```
+(...)
+Bugs count for SendSyncVariance algorithm
+High - visible 118 / internal  60
+ Med - visible 181 / internal  98
+ Low - visible 197 / internal 111
+Bugs count for UnsafeDataflow algorithm
+High - visible  65 / internal   8
+ Med - visible 119 / internal  17
+ Low - visible 163 / internal  31
+```
+
+Note that the numbers are slightly different from the submitted version of the paper:
+```
+Bugs count for SendSyncVariance algorithm
+High - visible 118 / internal  59
+ Med - visible 182 / internal  96
+ Low - visible 197 / internal 109
+Bugs count for UnsafeDataflow algorithm
+High - visible  65 / internal   7
+ Med - visible 118 / internal  15
+ Low - visible 162 / internal  28
+```
+
+This is because we found some uncounted bugs while we are automating the bug counting for the artifact submission.
+Rudra can actually find 5 *more* bugs in total than what we reported in the submitted version.
+We will use the new numbers in the camera-ready version of the paper.
 
 ## Validating Rust standard library bugs (10 human-minutes + 30 compute-minutes)
 
