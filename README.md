@@ -517,13 +517,12 @@ It's because (1) Rudra's false positive rate got a little lower because of the u
 and (2) we included the reports for std library in the count (# of report goes up).
 Overall, the false positive rate is slightly lower than the submitted version.
 
-## Re-using Rudra Beyond the Paper (30 human-minutes)
+## Re-using Rudra Beyond the Paper
+
+Rudra has been designed from the ground-up to be a general purpose
+static bug-finding framework for Rust packages.
 
 Rudra's code can be used as an extensible framework for future research for
 ecosystem or package level analysis. In particular, Rudra allows new bug finding
-algorithms to be integrated easily, taking full advantage of the reporting
-mechanism.
-
-The following tutorial guides the user through the creation of a bug finding
-algorithm that flags usages of the function `crash_me("please")` across all
-Rust code.
+algorithms to be integrated easily, taking full advantage of our ability to
+aggregate reports over all Rust packages.
