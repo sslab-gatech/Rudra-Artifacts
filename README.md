@@ -477,8 +477,10 @@ Claimed: RUDRA-REPORTS-PRECISION
 #### RUDRA-COMPILE-RESULT, RUDRA-REPORTS-PRECISION
 
 1. Unpack `rudra-runner-home-cache.tar.gz` and set `$RUDRA_RUNNER_HOME` environment variable to the unpacked directory.
-1. (Optional) Use `docker-rudra-runner` command to run the experiment. Otherwise, you can use `campaign/20210816_225417` that includes all logs and reports for convenience.
-    * Note: It is recommended to run `docker-rudra-runner` in terminal multiplexers like `tmux` or `screen`.
+1. (Optional) Use `docker-rudra-runner` command to run the experiment. Otherwise, you can use
+   and examine the `campaign/20210816_225417` folder. This includes all the logs
+   and reports from our run as a convenience.
+    * Note: It is recommended to run `docker-rudra-runner` in a terminal multiplexer like `tmux` or `screen`.
 1. Change into `rudra-poc/paper` directory.
 1. Run `./log_analyzer.py` to list the experiments. Then, run `./log_analyzer.py <experiment_id>` to analyze the log.
     * Example: `./log_analyzer.py 20210816_225417`
