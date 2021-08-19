@@ -104,8 +104,8 @@ docker-cargo-rudra <directory>
 ```
 
 The log and report are printed to stderr by default.
-
-TODO: choose an example project and describe the expected output
+For instance, you can run `docker-cargo-rudra ./test-rust-package` in the project root to run Rudra on `test-rust-package` directory.
+This will reproduce the example screenshot above.
 
 ## Reproduce Bugs found by Rudra (20 human-minutes + 60 compute-minutes)
 
