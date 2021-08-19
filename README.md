@@ -74,15 +74,6 @@ Download times in steps are based on a gigabit internet connection.
 This guide describes how to use Rudra with Docker on Linux environment.
 
 1. Install [Docker](https://docs.docker.com/get-docker/) and Python 3 on your system.
-1. Run `pip install tomlkit` to install the Python dependency.
-1. Install [Rust Toolchain](https://www.rust-lang.org/tools/install).
-    * The recommended way is to use rustup.
-        * `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
-    * You might need to restart your shell, so that `$HOME/.cargo/bin` is in the `$PATH`.
-    * Any recent stable version should work since it is only used for `cargo-download`.
-1. Install [cargo-download](https://crates.io/crates/cargo-download).
-    * Run `cargo install cargo-download` after setting up the Rust toolchain.
-    * This command lets us download crates (Rust packages) from Rust's official registry [crates.io](https://crates.io/).
 1. Clone [Rudra-Artifact](https://github.com/sslab-gatech/Rudra-Artifacts) and its submodules.
     * `git clone --recursive https://github.com/sslab-gatech/Rudra-Artifacts.git`
     * `rudra` directory includes source code for Rudra and `rudra-poc` lists all of the Rust memory safety bugs found during the research.
@@ -92,10 +83,11 @@ This guide describes how to use Rudra with Docker on Linux environment.
 1. Change into `rudra` directory.
     * `cd ../rudra`
 1. In Rudra directory, run `docker build . -t rudra:latest`.
+   (This will build the base Rudra image used in other steps).
 1. In Rudra directory, run `./setup_rudra_runner_home_fixed.py <directory>` and set `RUDRA_RUNNER_HOME` environment variable to that directory. This command creates a new directory that is used by Rudra to save configurations and intermediate files.
     * Example: `./setup_rudra_runner_home_fixed.py ~/rudra-home && export RUDRA_RUNNER_HOME=$HOME/rudra-home`
     * Note: DO NOT use `setup_rudra_runner_home.py`. Use `setup_rudra_runner_home_fixed.py` for the artifact evaluation purpose. The fixed version uses a fixed crates.io registry index to reproduce the paper's result.
-1. Add `docker-helper` in Rudra repository to `$PATH`. Now you are ready to test Rudra!
+1. In the base `Rudra-Artifact` directory, run `docker build -t rudra-artifact .`
 
 ## Basic Usability Test: Running Rudra on a single project (5 human-minutes + 1 compute-minutes)
 
@@ -210,12 +202,12 @@ Claimed: RUDRA-NEW-BUGS, RUDRA-RUTSEC-RATIO
 
 `rudra-poc/poc` contains all of the new memory-safety bugs found during the Rudra research.
 Although the result can be verified manually from these files,
-we provide two scripts that automatically verifies the bug count and reproduces the result for convenience.
+we provide two convenience scripts that can automatically verify the bug count and reproduces results.
 
 ##### Verifying the bug count
 
-1. Change into `rudra-poc/paper` directory.
-1. Run `./count_bugs.py --simple`.
+1. Run `docker run -it rudra-artifact`.
+1. Run `./count_bugs.py --simple` within the launched docker container.
 
 ```
 UnsafeDataflow
@@ -239,20 +231,20 @@ We will use the new numbers in the camera-ready version of the paper.
 
 ##### Verifying the reproducibility
 
-1. Change into `rudra-poc/paper` directory.
-1. Run `./recreate_bugs.py`.
+1. Run `docker run -it rudra-artifact`.
+1. Run `./recreate_bugs.py` within the launched docker container.
 
-This script downloads each target package under `rudra-poc/rudra-recreate` directory
-and runs `docker-cargo-rudra` command on each of them,
+This script uses [`cargo-download`](https://crates.io/crates/cargo-download) to download each target package under
+`rudra-poc/rudra-recreate` directory and runs the `cargo rudra` command on each of them,
 making sure that the bug location is found in Rudra's output.
 "Finished running Rudra for (package)" means that Rudra was able to reproduce the bugs know for that package.
 This script is multi-threaded,
-and our machine with AMD EPYC 7452 (32-core) took 7 minutes for the first run and 2 minutes for the subsequent run.
+and on our machine with AMD EPYC 7452 (32-core) took 7 minutes for the first run and 2 minutes for the subsequent run.
 
 #### RUDRA-RUTSEC-RATIO
 
-1. Change into `rudra-poc/paper` directory.
-1. Run `./rustsec_list_counter.py`.
+1. Run `docker run -it rudra-artifact`.
+1. Run `./rustsec_list_counter.py` within the launched docker container.
 
 ```
 Rudra-found RustSec memory-safety bugs: 96
@@ -269,8 +261,8 @@ As we described in the paper, we excluded notices and unmaintained advisories, w
 
 #### RUDRA-BUG-BREAKDOWN
 
-1. Change into `rudra-poc/paper` directory.
-1. Run `./recreate_bugs.py`.
+1. Run `docker run -it rudra-artifact`.
+1. Run `./recreate_bugs.py` within the launched docker container.
 
 This scripts runs Rudra on all of the target packages that Rudra found bugs in and ensures Rudra can reproduce them.
 The script prints the breakdown of the bug counts in each precision.
@@ -311,8 +303,8 @@ Analyzing the Rust standard library and compiler is slightly different than a
 simple Rust package. We have included a Docker image that will perform all the
 steps to do the analysis.
 
-1. Install [Docker](https://docs.docker.com/get-docker/) and set up the `rudra`
-   image as explained in the *Installing the Artifact* section above.
+1. Set up the `rudra` image as explained in the *Installing the Artifact* section
+   above.
 1. Change into the `rudra/stdlib-analysis` directory.
 1. Build the standard library analysis image with: `docker build -t rudra-std .`
 1. Run the analysis on the standard library and pipe the reports into a file:
@@ -322,7 +314,7 @@ The generated `rudra-std-report.txt` file should contain Rudra's output and
 reports which can be used to verify the claims about Rust standard library
 and compiler bugs identified in the paper.
 
-The next few sections show the claimed bugs from the different parts of the
+The next sections show the claimed bugs from the different parts of the
 paper. The final section shows how to correlate them with Rudra's bug reports.
 
 ### Claims
