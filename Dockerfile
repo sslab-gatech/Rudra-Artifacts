@@ -14,5 +14,7 @@ RUN cargo install cargo-download
 ADD rudra-poc/ /rudra-poc
 RUN chmod -R 777 /rudra-poc
 
+RUN cd /rudra-poc && rm -rf advisory-db && git clone https://github.com/rustsec/advisory-db.git
+
 WORKDIR /rudra-poc/paper
 ENTRYPOINT ["/bin/bash"]
