@@ -233,7 +233,7 @@ Note that the numbers are slightly different from the submitted version of the p
 * Current version: 264 new bugs and 78 CVEs
 * Paper: 263 new bugs and 76 CVEs
 
-This is because we counted RUDRA-RUSTC-1 bug (see below) as one bug instead of two bugs by mistake,
+This is because we counted RUDRA-RUSTC-1 bug (see below) as one bug instead of two bugs in the submitted version,
 and two new CVEs were get assigned to the standard library bugs after the submission.
 We will use the new numbers in the camera-ready version of the paper.
 
@@ -301,8 +301,8 @@ High - visible  65 / internal   7
 ```
 
 Note that the numbers are slightly different from the submitted version of the paper.
-This is because we found some uncounted bugs while we are automating the bug counting for the artifact submission.
-Rudra can actually find 5 *more* bugs in total than what we reported in the submitted version.
+This is because we noticed some bugs that were not included when we manually counted them for the artifact submission.
+Rudra can actually find 5 more bugs in total than what we reported in the submitted version.
 We will use the new numbers in the camera-ready version of the paper.
 
 ## Validating Rust standard library bugs (10 human-minutes + 30 compute-minutes)
@@ -477,7 +477,8 @@ Claimed: RUDRA-REPORTS-PRECISION
 #### RUDRA-COMPILE-RESULT, RUDRA-REPORTS-PRECISION
 
 1. Unpack `rudra-runner-home-cache.tar.gz` and set `$RUDRA_RUNNER_HOME` environment variable to the unpacked directory.
-1. (Optional) Use `docker-rudra-runner` to run the experiment. Otherwise, you can use `campaign/20210816_225417` that includes all logs and reports for convenience.
+1. (Optional) Use `docker-rudra-runner` command to run the experiment. Otherwise, you can use `campaign/20210816_225417` that includes all logs and reports for convenience.
+    * Note: It is recommended to run `docker-rudra-runner` in terminal multiplexers like `tmux` or `screen`.
 1. Change into `rudra-poc/paper` directory.
 1. Run `./log_analyzer.py` to list the experiments. Then, run `./log_analyzer.py <experiment_id>` to analyze the log.
     * Example: `./log_analyzer.py 20210816_225417`
@@ -510,8 +511,9 @@ Reports for analyzer UnsafeDataflow
 ```
 
 Note that the numbers are slightly different from the submitted version of the paper.
-It's because (1) Rudra's false positive rate got a little lower because of the updated algorithm (# of report goes down), and (2) we changed a way to count std library reports (# of report goes up).
-Overall, the false positive rate got lower than the submitted version.
+It's because (1) Rudra's false positive rate got a little lower because of the updated algorithm (# of report goes down),
+and (2) we included the reports for std library in the count (# of report goes up).
+Overall, the false positive rate is slightly lower than the submitted version.
 
 ## Re-using Rudra Beyond the Paper (30 human-minutes)
 
