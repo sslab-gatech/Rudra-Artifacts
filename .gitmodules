@@ -1,3 +1,6 @@
 [submodule "Rudra-PoC"]
 	path = Rudra-PoC
 	url = https://github.com/sslab-gatech/Rudra-PoC.git
+[submodule "Rudra"]
+	path = Rudra
+	url = https://github.com/sslab-gatech/Rudra.git

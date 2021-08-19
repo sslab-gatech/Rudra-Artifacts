@@ -63,7 +63,6 @@ You will need the following to evaluate Rudra:
 
 * [Docker](https://www.docker.com/)
 * Python 3
-* [Rust Toolchain](https://www.rust-lang.org/tools/install) and [cargo-download](https://crates.io/crates/cargo-download)
 * git
 * About 40 GB of disk space if running on all crates.io packages.
 
@@ -84,15 +83,12 @@ This guide describes how to use Rudra with Docker on Linux environment.
     * `cd ../rudra`
 1. In Rudra directory, run `docker build . -t rudra:latest`.
    (This will build the base Rudra image used in other steps).
-1. In Rudra directory, run `./setup_rudra_runner_home_fixed.py <directory>` and set `RUDRA_RUNNER_HOME` environment variable to that directory. This command creates a new directory that is used by Rudra to save configurations and intermediate files.
-    * Example: `./setup_rudra_runner_home_fixed.py ~/rudra-home && export RUDRA_RUNNER_HOME=$HOME/rudra-home`
-    * Note: DO NOT use `setup_rudra_runner_home.py`. Use `setup_rudra_runner_home_fixed.py` for the artifact evaluation purpose. The fixed version uses a fixed crates.io registry index to reproduce the paper's result.
 1. In the base `Rudra-Artifact` directory, run `docker build -t rudra-artifact .`
 
 ## Basic Usability Test: Running Rudra on a single project (5 human-minutes + 1 compute-minutes)
 
 1. Follow the installing the artifact instructions above.
-1. From the Rudra-Artifacts directory, run the command `docker-cargo-rudra ./test-rust-package`.
+1. From the Rudra-Artifacts directory, run the command `Rudra/docker-helper/docker-cargo-rudra test-rust-package`.
    This will cause the `test-rust-package` folder to be mounted in a docker
    container as a Rust package and then analyzed with Rudra.
 1. This should output Rudra's analysis logs and bug reports to stdout,
@@ -469,7 +465,7 @@ Claimed: RUDRA-REPORTS-PRECISION
 #### RUDRA-COMPILE-RESULT, RUDRA-REPORTS-PRECISION
 
 1. Unpack `rudra-runner-home-cache.tar.gz` and set `$RUDRA_RUNNER_HOME` environment variable to the unpacked directory.
-1. (Optional) Use `docker-rudra-runner` command to run the experiment. Otherwise, you can use
+1. (Optional) Use `Rudra/docker-helper/docker-rudra-runner` command to run the experiment. Otherwise, you can use
    and examine the `campaign/20210816_225417` folder. This includes all the logs
    and reports from our run as a convenience.
     * Note: It is recommended to run `docker-rudra-runner` in a terminal multiplexer like `tmux` or `screen`.
