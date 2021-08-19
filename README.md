@@ -97,15 +97,14 @@ This guide describes how to use Rudra with Docker on Linux environment.
     * Note: DO NOT use `setup_rudra_runner_home.py`. Use `setup_rudra_runner_home_fixed.py` for the artifact evaluation purpose. The fixed version uses a fixed crates.io registry index to reproduce the paper's result.
 1. Add `docker-helper` in Rudra repository to `$PATH`. Now you are ready to test Rudra!
 
-## Basic Usability Test: Running Rudra on a single project (XX human-minutes + XX compute-minutes)
+## Basic Usability Test: Running Rudra on a single project (5 human-minutes + 1 compute-minutes)
 
-```
-docker-cargo-rudra <directory>
-```
-
-The log and report are printed to stderr by default.
-For instance, you can run `docker-cargo-rudra ./test-rust-package` in the project root to run Rudra on `test-rust-package` directory.
-This will reproduce the example screenshot above.
+1. Follow the installing the artifact instructions above.
+1. From the Rudra-Artifacts directory, run the command `docker-cargo-rudra ./test-rust-package`.
+   This will cause the `test-rust-package` folder to be mounted in a docker
+   container as a Rust package and then analyzed with Rudra.
+1. This should output Rudra's analysis logs and bug reports to stdout,
+   reproducing the screenshot from the [*Input/Outputs* section](#output).
 
 ## Reproduce Bugs found by Rudra (20 human-minutes + 60 compute-minutes)
 
