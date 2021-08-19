@@ -11,7 +11,8 @@ RUN pip3 install tomlkit
 RUN cargo install cargo-download
 
 # Add the rudra-poc folder in.
-ADD Rudra-PoC/ /Rudra-PoC
+ADD rudra-poc/ /rudra-poc
+RUN chmod -R 777 /rudra-poc
 
-WORKDIR /Rudra-PoC/paper
+WORKDIR /rudra-poc/paper
 ENTRYPOINT ["/bin/bash"]

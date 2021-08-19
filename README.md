@@ -81,9 +81,9 @@ This guide describes how to use Rudra with Docker on Linux environment.
     * `cd rudra-poc && git clone https://github.com/rustsec/advisory-db.git`
 1. Change into `rudra` directory.
     * `cd ../rudra`
-1. In Rudra directory, run `docker build . -t rudra:latest`.
+1. In Rudra directory, run `docker build -t rudra .`.
    (This will build the base Rudra image used in other steps).
-1. In the base `Rudra-Artifact` directory, run `docker build -t rudra-artifact .`
+1. In the base `Rudra-Artifact` directory, run `docker build -t rudra-artifact .`.
 1. From the Rudra-Artifacts directory, run the command `rudra/setup_rudra_runner_home_fixed.py <directory>` and set `RUDRA_RUNNER_HOME` environment variable to that directory.
     * This command creates a new directory that is used by Rudra to save configurations and intermediate files.
     * Example: `rudra/setup_rudra_runner_home_fixed.py ~/rudra-home && export RUDRA_RUNNER_HOME=$HOME/rudra-home`
@@ -206,7 +206,7 @@ we provide two convenience scripts that can automatically verify the bug count a
 
 ##### Verifying the bug count
 
-1. Run `docker run -it rudra-artifact`.
+1. Run `rudra/docker-helper/rudra-artifact-bash`.
 1. Run `./count_bugs.py --simple` within the launched docker container.
 
 ```
@@ -231,7 +231,7 @@ We will use the new numbers in the camera-ready version of the paper.
 
 ##### Verifying the reproducibility
 
-1. Run `docker run -it rudra-artifact`.
+1. Run `rudra/docker-helper/rudra-artifact-bash`.
 1. Run `./recreate_bugs.py` within the launched docker container.
 
 This script uses [`cargo-download`](https://crates.io/crates/cargo-download) to download each target package under
@@ -243,7 +243,7 @@ and on our machine with AMD EPYC 7452 (32-core) took 7 minutes for the first run
 
 #### RUDRA-RUTSEC-RATIO
 
-1. Run `docker run -it rudra-artifact`.
+1. Run `rudra/docker-helper/rudra-artifact-bash`.
 1. Run `./rustsec_list_counter.py` within the launched docker container.
 
 ```
@@ -261,7 +261,7 @@ As we described in the paper, we excluded notices and unmaintained advisories, w
 
 #### RUDRA-BUG-BREAKDOWN
 
-1. Run `docker run -it rudra-artifact`.
+1. Run `rudra/docker-helper/rudra-artifact-bash`.
 1. Run `./recreate_bugs.py` within the launched docker container.
 
 This scripts runs Rudra on all of the target packages that Rudra found bugs in and ensures Rudra can reproduce them.
@@ -476,8 +476,8 @@ Claimed: RUDRA-REPORTS-PRECISION
    and examine the `campaign/20210816_225417` folder. This includes all the logs
    and reports from our run as a convenience.
     * Note: It is recommended to run `docker-rudra-runner` in a terminal multiplexer like `tmux` or `screen`.
-1. Run `docker run -it rudra-artifact`.
-1. Run `./log_analyzer.py` to list the experiments. Then, run `./log_analyzer.py <experiment_id>` to analyze the log.
+1. Run `rudra/docker-helper/rudra-artifact-bash`.
+1. Run `./log_analyzer.py` within the launched container to list the experiments. Then, run `./log_analyzer.py <experiment_id>` to analyze the log.
     * Example: `./log_analyzer.py 20210816_225417`
 
 First, download `rudra-runner-home-cache.tar.gz` and set `$RUDRA_RUNNER_HOME` environment variable to point the extracted directory.
@@ -491,7 +491,7 @@ This command took 6.5 hours on a machine with 32-core AMD EPYC 7452, 252 GB memo
 The analysis result will be saved in `$RUDRA_RUNNER_HOME/campaign/YYYYMMDD_HHmmss/[log|report]` directories.
 For convenience, we included a full experiment result that was run on our machine under `20210816_225417` directory.
 
-Finally, run `docker run -it rudra-artifact` and run `./log_analyzer.py <experiment_id>` to print the final result.
+Finally, run `rudra/docker-helper/rudra-artifact-bash` and run `./log_analyzer.py <experiment_id>` to print the final result.
 It takes less than 1 minute to analyze the result.
 
 ```
