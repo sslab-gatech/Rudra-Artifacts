@@ -64,7 +64,8 @@ You will need the following to evaluate Rudra:
 * [Docker](https://www.docker.com/)
 * Python 3
 * git
-* About 40 GB of disk space if running on all crates.io packages.
+* About 5 GB of disk space for install and basic result reproduction.
+* About 150 GB of disk space if running on all crates.io packages.
 
 Download times in steps are based on a gigabit internet connection.
 
@@ -76,7 +77,6 @@ This guide describes how to use Rudra with Docker on Linux environment.
 1. Clone [Rudra-Artifact](https://github.com/sslab-gatech/Rudra-Artifacts) and its submodules.
     * `git clone --recursive https://github.com/sslab-gatech/Rudra-Artifacts.git`
     * `rudra` directory includes source code for Rudra and `rudra-poc` lists all of the Rust memory safety bugs found during the research.
-    * TODO: we need to include submodules (don't do it until everything is ready)
 1. Change into `rudra-poc` directory and clone [RustSec advisory DB](https://github.com/rustsec/advisory-db/).
     * `cd rudra-poc && git clone https://github.com/rustsec/advisory-db.git`
 1. Change into `rudra` directory.
@@ -84,11 +84,15 @@ This guide describes how to use Rudra with Docker on Linux environment.
 1. In Rudra directory, run `docker build . -t rudra:latest`.
    (This will build the base Rudra image used in other steps).
 1. In the base `Rudra-Artifact` directory, run `docker build -t rudra-artifact .`
+1. From the Rudra-Artifacts directory, run the command `rudra/setup_rudra_runner_home_fixed.py <directory>` and set `RUDRA_RUNNER_HOME` environment variable to that directory.
+    * This command creates a new directory that is used by Rudra to save configurations and intermediate files.
+    * Example: `rudra/setup_rudra_runner_home_fixed.py ~/rudra-home && export RUDRA_RUNNER_HOME=$HOME/rudra-home`
+    * Note: DO NOT use `setup_rudra_runner_home.py`. Use `setup_rudra_runner_home_fixed.py` for the artifact evaluation purpose. The fixed version uses [a fixed crates.io](https://github.com/Qwaz/crates.io-index-2020-07-04) registry index to reproduce the paper's result.
 
 ## Basic Usability Test: Running Rudra on a single project (5 human-minutes + 1 compute-minutes)
 
 1. Follow the installing the artifact instructions above.
-1. From the Rudra-Artifacts directory, run the command `Rudra/docker-helper/docker-cargo-rudra test-rust-package`.
+1. From the Rudra-Artifacts directory, run the command `rudra/docker-helper/docker-cargo-rudra test-rust-package`.
    This will cause the `test-rust-package` folder to be mounted in a docker
    container as a Rust package and then analyzed with Rudra.
 1. This should output Rudra's analysis logs and bug reports to stdout,
@@ -464,27 +468,30 @@ Claimed: RUDRA-REPORTS-PRECISION
 
 #### RUDRA-COMPILE-RESULT, RUDRA-REPORTS-PRECISION
 
-1. Unpack `rudra-runner-home-cache.tar.gz` and set `$RUDRA_RUNNER_HOME` environment variable to the unpacked directory.
-1. (Optional) Use `Rudra/docker-helper/docker-rudra-runner` command to run the experiment. Otherwise, you can use
+1. Unpack `rudra-runner-home-cache.tar.gz` (61 GB compressed, 108 GB decompressed) and set `$RUDRA_RUNNER_HOME` environment variable to the unpacked directory.
+    * TODO: add a download link here
+    * `wget http://TODO && tar -xzf rudra-runner-home-cache.tar.gz && export RUDRA_RUNNER_HOME=$PWD/rudra-runner-home-cache`
+    * Please do not download this file just out of curiosity. This file is provided to aid the artifact evaluation, and our institution has a limited bandwidth.
+1. (Optional) Use `rudra/docker-helper/docker-rudra-runner` command to run the experiment. Otherwise, you can use
    and examine the `campaign/20210816_225417` folder. This includes all the logs
    and reports from our run as a convenience.
     * Note: It is recommended to run `docker-rudra-runner` in a terminal multiplexer like `tmux` or `screen`.
-1. Change into `rudra-poc/paper` directory.
+1. Run `docker run -it rudra-artifact`.
 1. Run `./log_analyzer.py` to list the experiments. Then, run `./log_analyzer.py <experiment_id>` to analyze the log.
     * Example: `./log_analyzer.py 20210816_225417`
 
-First, download `rudra-runner-home-cache.tar.gz` from TODO and set `$RUDRA_RUNNER_HOME` environment variable to point the extracted directory.
+First, download `rudra-runner-home-cache.tar.gz` and set `$RUDRA_RUNNER_HOME` environment variable to point the extracted directory.
 This file contains downloaded source code of each crate under `rudra_cache`
 and full logs and reports of analyzing all crates under `campaign/20210816_225417`.
 Step 1 is not strictly necessary for verifying the result but highly recommended
 due to the slow rate-limit of crates.io which is 1 req/sec.
 
-You can run Rudra on all crates with `docker-rudra-runner` command.
+You can run Rudra on all crates with `rudra/docker-helper/docker-rudra-runner` command.
 This command took 6.5 hours on a machine with 32-core AMD EPYC 7452, 252 GB memory, and an NVMe SSD that runs Ubuntu 20.04.
 The analysis result will be saved in `$RUDRA_RUNNER_HOME/campaign/YYYYMMDD_HHmmss/[log|report]` directories.
 For convenience, we included a full experiment result that was run on our machine under `20210816_225417` directory.
 
-Finally, run `./log_analyzer.py <experiment_id>` to print the final result.
+Finally, run `docker run -it rudra-artifact` and run `./log_analyzer.py <experiment_id>` to print the final result.
 It takes less than 1 minute to analyze the result.
 
 ```
