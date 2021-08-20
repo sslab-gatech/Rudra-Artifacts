@@ -425,7 +425,7 @@ races across threads.
 [[rust-lang/rust#81425](https://github.com/rust-lang/rust/issues/81425)]
 
 
-## Validating Rudra's precision on crates.io Packages (20 human-minutes + 7 compute-hours)
+## Validating Rudra's precision on crates.io Packages (20 human-minutes + 10 compute-hours)
 
 (Computing time is highly dependent on your computing power)
 
@@ -469,7 +469,7 @@ Claimed: RUDRA-REPORTS-PRECISION
 1. Unpack `rudra-runner-home-cache.tar.gz` (61 GB compressed, 108 GB decompressed) and set `$RUDRA_RUNNER_HOME` environment variable to the unpacked directory.
     * [Download Link](https://gtvault-my.sharepoint.com/:u:/g/personal/aaskar3_gatech_edu/EVIp52l80xRKm6ohHGENCskBy8TPnubta3kda-kqcwBVag?e=A9wVnh&download=1)
     * `wget "https://gtvault-my.sharepoint.com/:u:/g/personal/aaskar3_gatech_edu/EVIp52l80xRKm6ohHGENCskBy8TPnubta3kda-kqcwBVag?e=A9wVnh&download=1" -O rudra-runner-home-cache.tar.gz && tar -xzf rudra-runner-home-cache.tar.gz && export RUDRA_RUNNER_HOME=$PWD/rudra-runner-home-cache`
-    * Please do not download this file just out of curiosity. This file is provided to aid the artifact evaluation, and our institution has a limited bandwidth.
+    * Please do not download this file just out of curiosity. This file is provided to aid the artifact evaluation, and our institution has limited bandwidth.
 1. (Optional) Use `rudra/docker-helper/docker-rudra-runner` command to run the experiment. Otherwise, you can use
    and examine the `campaign/20210816_225417` folder. This includes all the logs
    and reports from our run as a convenience.
