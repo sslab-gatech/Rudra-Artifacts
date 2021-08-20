@@ -39,4 +39,7 @@ jobs:
 
       # -----------
       - name: Basic usability test
+        # Workaround for https://github.com/actions/runner/issues/241 and
+        # running docker with the `-t` flag.
+        shell: 'script -q -e -c "bash {0}"'
         run: rudra/docker-helper/docker-cargo-rudra test-rust-package
