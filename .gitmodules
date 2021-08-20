@@ -1,0 +1,6 @@
+[submodule "rudra"]
+	path = rudra
+	url = https://github.com/sslab-gatech/Rudra
+[submodule "rudra-poc"]
+	path = rudra-poc
+	url = https://github.com/sslab-gatech/Rudra-PoC
