@@ -19,3 +19,9 @@ jobs:
 
       - name: Build base rudra image
         run: cd rudra && docker build . -t rudra
+
+      - name: Build artifact image
+        run: docker build . -t rudra-artifact
+
+      - name: Set up fixed rudra runner home
+        run: mkdir ~/rudra-home && rudra/setup_rudra_runner_home_fixed.py ~/rudra-home
