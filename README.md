@@ -467,8 +467,10 @@ Claimed: RUDRA-REPORTS-PRECISION
 #### RUDRA-COMPILE-RESULT, RUDRA-REPORTS-PRECISION
 
 1. Unpack `rudra-runner-home-cache.tar.gz` (61 GB compressed, 108 GB decompressed) and set `$RUDRA_RUNNER_HOME` environment variable to the unpacked directory.
-    * [Download Link](https://gtvault-my.sharepoint.com/:u:/g/personal/aaskar3_gatech_edu/EVIp52l80xRKm6ohHGENCskBy8TPnubta3kda-kqcwBVag?e=A9wVnh&download=1)
+    * [Download Link 1](https://gtvault-my.sharepoint.com/:u:/g/personal/aaskar3_gatech_edu/EVIp52l80xRKm6ohHGENCskBy8TPnubta3kda-kqcwBVag?e=A9wVnh&download=1)
     * `wget "https://gtvault-my.sharepoint.com/:u:/g/personal/aaskar3_gatech_edu/EVIp52l80xRKm6ohHGENCskBy8TPnubta3kda-kqcwBVag?e=A9wVnh&download=1" -O rudra-runner-home-cache.tar.gz && tar -xzf rudra-runner-home-cache.tar.gz && export RUDRA_RUNNER_HOME=$PWD/rudra-runner-home-cache`
+    * [Download Link 2](https://www.dropbox.com/s/f4jqjxeg5jmfn3x/rudra-runner-home-cache.tar.gz?dl=0)
+    * `wget "https://www.dropbox.com/s/f4jqjxeg5jmfn3x/rudra-runner-home-cache.tar.gz?dl=0" && tar -xzf rudra-runner-home-cache.tar.gz && export RUDRA_RUNNER_HOME=$PWD/rudra-runner-home-cache`
     * Please do not download this file just out of curiosity. This file is provided to aid the artifact evaluation, and our institution has limited bandwidth.
 1. (Optional) Use `rudra/docker-helper/docker-rudra-runner` command to run the experiment. Otherwise, you can use
    and examine the `campaign/20210816_225417` folder. This includes all the logs
