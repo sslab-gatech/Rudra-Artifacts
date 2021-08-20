@@ -12,16 +12,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 2 from the README
       - name: Checkout
         uses: actions/checkout@v2
         with:
           submodules: true
 
+      # Use a docker layer caching action to speed up docker builds when no
+      # changes are made.
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+
+      # Steps 3 and 4 from the README
       - name: Build base rudra image
         run: cd rudra && docker build . -t rudra
 
+      # Step 5 fom the README
       - name: Build artifact image
         run: docker build . -t rudra-artifact
 
+      # Step 6 from the README
       - name: Set up fixed rudra runner home
         run: mkdir ~/rudra-home && rudra/setup_rudra_runner_home_fixed.py ~/rudra-home
