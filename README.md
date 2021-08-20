@@ -263,8 +263,8 @@ This script parses the metadata of each file in `rudra-poc/poc` and count the nu
 based on the analyzer that detected the bug.
 
 Note that the numbers are slightly different from the submitted version of the paper:
-* Current version: 264 new bugs and 78 CVEs
-* Paper: 263 new bugs and 76 CVEs
+* Current version: 264 new bugs and 76 CVEs
+* Paper: 263 new bugs and 74 CVEs
 
 This is because we counted RUDRA-RUSTC-1 bug (see below) as one bug instead of two bugs in the submitted version,
 and two new CVEs were get assigned to the standard library bugs after the submission.
