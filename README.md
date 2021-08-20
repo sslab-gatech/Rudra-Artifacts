@@ -78,7 +78,7 @@ This guide describes how to use Rudra with Docker on Linux environment.
     * `git clone --recursive https://github.com/sslab-gatech/Rudra-Artifacts.git`
     * `rudra` directory includes source code for Rudra and `rudra-poc` lists all of the Rust memory safety bugs found during the research.
 1. Change into `rudra` directory.
-    * `cd ../rudra`
+    * `cd rudra`
 1. In Rudra directory, run `docker build . -t rudra`.
    (This will build the base Rudra image used in other steps).
 1. In the base `Rudra-Artifact` directory, run `docker build . -t rudra-artifact`.
