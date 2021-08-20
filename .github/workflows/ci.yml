@@ -33,7 +33,9 @@ jobs:
 
       # Step 6 from the README
       - name: Set up fixed rudra runner home
-        run: mkdir ~/rudra-home && rudra/setup_rudra_runner_home_fixed.py ~/rudra-home
+        run: |
+          rudra/setup_rudra_runner_home_fixed.py ~/rudra-home
+          echo "RUDRA_RUNNER_HOME=$HOME/rudra-home" >> $GITHUB_ENV
 
       # -----------
       - name: Basic usability test
