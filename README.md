@@ -105,7 +105,7 @@ where
 You will need the following to evaluate Rudra:
 
 * [Docker](https://www.docker.com/)
-* Python 3
+* Python 3.6+
 * git
 * About 5 GB of disk space for install and basic result reproduction.
 * About 150 GB of disk space if running on all crates.io packages.
@@ -116,7 +116,7 @@ Download times in steps are based on a gigabit internet connection.
 
 This guide describes how to use Rudra with Docker on Linux environment.
 
-1. Install [Docker](https://docs.docker.com/get-docker/) and Python 3 on your system.
+1. Install [Docker](https://docs.docker.com/get-docker/) and Python 3.6+ on your system.
 1. Clone [Rudra-Artifact](https://github.com/sslab-gatech/Rudra-Artifacts) and its submodules.
     * `git clone --recursive https://github.com/sslab-gatech/Rudra-Artifacts.git`
     * `rudra` directory includes source code for Rudra and `rudra-poc` lists all of the Rust memory safety bugs found during the research.
