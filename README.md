@@ -2,6 +2,8 @@
 
 **Paper**: RUDRA: Finding Memory Safety Bugs in Rust at the Ecosystem Scale
 
+Note: This document was written when Rudra was using `nightly-2020-08-26` version of the Rust compiler. Most of the parts should work with the latest version of Rudra, but some parts (e.g., stdlib analysis) are tied to that version and you might need `rudra:2020-08-26` Docker image.
+
 ## Table of Contents
 
 - [Overview](#overview)
